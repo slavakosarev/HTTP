@@ -1,26 +1,10 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+import { parseCookies } from './parseCookies.js';
 
 const host = 'localhost';
 const port = 8000;
-
-function parseCookies(request) {
-
-   const list = {};
-   const cookieHeader = request.headers?.cookie;
-   if (!cookieHeader) return list;
-   cookieHeader.split(`;`).forEach(function (cookie) {
-      let [name, ...rest] = cookie.split(`=`);
-      name = name?.trim();
-      if (!name) return;
-      const value = rest.join(`=`).trim();
-      if (!value) return;
-      list[name] = decodeURIComponent(value);
-   });
-   return list;
-}
-
 const requestListener = (req, res) => {
 
    const user = {
